@@ -1,12 +1,13 @@
 ---
 import { site, navigation } from '../config/site';
+import { url, stripBase } from '../utils/url';
 
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const current = stripBase(Astro.url.pathname);
 ---
 
 <header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
   <div class="container-site flex h-16 items-center justify-between">
-    <a href="/" class="text-xl font-bold text-primary">
+    <a href={url('/')} class="text-xl font-bold text-primary">
       {site.name}
     </a>
 
@@ -30,7 +31,7 @@ const current = Astro.url.pathname.replace(/\/$/, '') || '/';
         {navigation.map((item) => (
           <li>
             <a
-              href={item.href}
+              href={url(item.href)}
               class:list={[
                 'block py-2 transition-colors hover:text-accent',
                 current === item.href && 'font-semibold text-primary',

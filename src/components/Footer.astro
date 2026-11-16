@@ -1,5 +1,6 @@
 ---
 import { site } from '../config/site';
+import { url } from '../utils/url';
 
 const year = new Date().getFullYear();
 ---
@@ -11,12 +12,12 @@ const year = new Date().getFullYear();
     </p>
     <ul class="flex gap-6">
       <li>
-        <a href="/mentions-legales" class="hover:text-white">
+        <a href={url('/mentions-legales')} class="hover:text-white">
           Mentions légales
         </a>
       </li>
       <li>
-        <a href="/confidentialite" class="hover:text-white">
+        <a href={url('/confidentialite')} class="hover:text-white">
           Confidentialité
         </a>
       </li>

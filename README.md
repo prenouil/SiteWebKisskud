@@ -39,6 +39,14 @@ src/
 .github/workflows/      Intégration continue (format, types, build)
 ```
 
+## Mise en ligne
+
+Le site est déployé automatiquement sur GitHub Pages à chaque push sur `main`
+(workflow `.github/workflows/deploy.yml`) : https://prenouil.github.io/SiteWebKisskud/
+
+Le site étant servi dans un sous-dossier, **les liens internes doivent passer par `url()`**
+(`src/utils/url.ts`) : `href={url('/contact')}` et non `href="/contact"`.
+
 ## À compléter
 
 - Domaine définitif : `astro.config.mjs` (`site`), `src/config/site.ts` (`url`) et `public/robots.txt`

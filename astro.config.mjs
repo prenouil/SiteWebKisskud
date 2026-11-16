@@ -6,9 +6,12 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // Domaine définitif du site (utilisé pour le sitemap et les URLs canoniques).
-  // À garder synchronisé avec src/config/site.ts
-  site: 'https://www.example.com',
+  // Adresse du site (utilisée pour le sitemap et les URLs canoniques).
+  // À garder synchronisé avec src/config/site.ts et public/robots.txt
+  // Aperçu actuel : GitHub Pages, servi dans le sous-dossier /SiteWebKisskud.
+  // Avec un nom de domaine définitif : mettre ce domaine dans `site` et supprimer `base`.
+  site: 'https://prenouil.github.io',
+  base: '/SiteWebKisskud',
 
   vite: {
     plugins: [tailwindcss()],

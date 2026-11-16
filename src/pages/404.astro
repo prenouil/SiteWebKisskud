@@ -1,12 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../utils/url';
 ---
 
 <BaseLayout title="Page introuvable" noindex>
   <section class="container-site py-32 text-center">
     <h1 class="text-5xl text-primary">404</h1>
     <p class="mt-4 text-ink/70">Cette page n'existe pas ou a été déplacée.</p>
-    <a href="/" class="mt-8 inline-block text-accent underline">
+    <a href={url('/')} class="mt-8 inline-block text-accent underline">
       Retour à l'accueil
     </a>
   </section>

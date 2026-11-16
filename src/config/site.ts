@@ -7,7 +7,7 @@
 export const site = {
   name: 'Kisskud',
   description: 'Site professionnel de Kisskud — description à compléter.',
-  url: 'https://www.example.com', // À remplacer par le domaine définitif (voir aussi astro.config.mjs)
+  url: 'https://prenouil.github.io/SiteWebKisskud', // À remplacer par le domaine définitif (voir aussi astro.config.mjs)
   locale: 'fr_FR',
   lang: 'fr',
   contact: {
