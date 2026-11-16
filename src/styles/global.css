@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+/*
+ * Charte graphique : couleurs et polices du site.
+ * À ajuster selon l'identité visuelle de l'activité.
+ * Utilisables dans Tailwind via : bg-primary, text-accent, font-heading…
+ */
+@theme {
+  --color-primary: #1e3a5f;
+  --color-primary-light: #2f5a8c;
+  --color-accent: #e07a3f;
+  --color-surface: #f7f7f5;
+  --color-ink: #1f2328;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+}
+
+/* Conteneur centré standard du site */
+@utility container-site {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+@layer base {
+  html {
+    @apply text-ink scroll-smooth antialiased;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading font-semibold tracking-tight;
+  }
+}

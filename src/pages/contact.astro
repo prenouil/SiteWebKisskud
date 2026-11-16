@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout title="Contact" description={`Contactez ${site.name}.`}>
+  <Section title="Contact">
+    <p class="text-ink/70">Écrivez-nous :</p>
+    <a class="text-accent underline" href={`mailto:${site.contact.email}`}>
+      {site.contact.email}
+    </a>
+    <!-- Formulaire de contact à mettre en place selon la solution retenue (Formspree, Netlify Forms, API…) -->
+  </Section>
+</BaseLayout>

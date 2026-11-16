@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/Section.astro';
+import { site } from '../config/site';
+---
+
+<BaseLayout>
+  <section class="bg-surface py-24 md:py-32">
+    <div class="container-site text-center">
+      <h1 class="text-4xl text-primary md:text-6xl">{site.name}</h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-ink/70">{site.description}</p>
+      <a
+        href="/contact"
+        class="mt-10 inline-block rounded-lg bg-accent px-6 py-3 font-medium text-white transition hover:opacity-90"
+      >
+        Nous contacter
+      </a>
+    </div>
+  </section>
+
+  <Section title="Contenu à venir">
+    <p class="text-ink/70">Les sections de la page d'accueil seront construites à partir des spécifications.</p>
+  </Section>
+</BaseLayout>

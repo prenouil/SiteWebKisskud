@@ -1,0 +1,17 @@
+---
+/** Bloc de section réutilisable : titre optionnel + contenu centré. */
+interface Props {
+  title?: string;
+  id?: string;
+  class?: string;
+}
+
+const { title, id, class: className } = Astro.props;
+---
+
+<section id={id} class:list={['py-16 md:py-24', className]}>
+  <div class="container-site">
+    {title && <h2 class="mb-8 text-3xl text-primary md:text-4xl">{title}</h2>}
+    <slot />
+  </div>
+</section>

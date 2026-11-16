@@ -1,0 +1,30 @@
+---
+import { site } from '../config/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto bg-primary text-white/80">
+  <div class="container-site flex flex-col gap-4 py-8 text-sm md:flex-row md:items-center md:justify-between">
+    <p>
+      &copy; {year} {site.name}. Tous droits réservés.
+    </p>
+    <ul class="flex gap-6">
+      <li>
+        <a href="/mentions-legales" class="hover:text-white">
+          Mentions légales
+        </a>
+      </li>
+      <li>
+        <a href="/confidentialite" class="hover:text-white">
+          Confidentialité
+        </a>
+      </li>
+      <li>
+        <a href={`mailto:${site.contact.email}`} class="hover:text-white">
+          Contact
+        </a>
+      </li>
+    </ul>
+  </div>
+</footer>
