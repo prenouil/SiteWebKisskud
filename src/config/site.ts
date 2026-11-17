@@ -5,8 +5,13 @@
  * À compléter avec les spécifications de l'activité.
  */
 export const site = {
-  name: 'Kisskud',
-  description: 'Site professionnel de Kisskud — description à compléter.',
+  name: 'Lumenescit',
+  description:
+    'Lumenescit, accompagnement en performance humaine et organisationnelle : faire émerger la clarté de la complexité.',
+  tagline: 'Faire émerger la clarté de la complexité',
+  mention: 'Accompagnement en performance humaine et organisationnelle',
+  owner: 'Karine RENOUIL',
+  role: 'Consultante en transformation',
   url: 'https://prenouil.github.io/SiteWebKisskud', // À remplacer par le domaine définitif (voir aussi astro.config.mjs)
   locale: 'fr_FR',
   lang: 'fr',
@@ -23,6 +28,8 @@ export const site = {
 } as const;
 
 export const navigation = [
-  { label: 'Accueil', href: '/' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Approche', href: '/#approche' },
+  { label: 'Offres', href: '/#offres' },
+  { label: 'Pour qui', href: '/#public' },
+  { label: 'Contact', href: '/#contact' },
 ] as const;

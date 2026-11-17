@@ -1,25 +1,682 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Section from '../components/Section.astro';
 import { site } from '../config/site';
 import { url } from '../utils/url';
+
+/** Lien « En parler » : ouvre un e-mail avec le nom de l'offre en objet. */
+const mail = (sujet: string) => `mailto:${site.contact.email}?subject=${encodeURIComponent(sujet)}`;
+
+/** Besoins cliquables : chaque phrase renvoie vers l'offre correspondante. */
+const besoins = [
+  { cible: 'o-audit', texte: "J'ai besoin d'un état des lieux de mon service" },
+  { cible: 'o-diagnostic', texte: 'Je ne sais plus par où commencer' },
+  { cible: 'o-controle', texte: 'Je passe mon temps à gérer les urgences' },
+  { cible: 'o-durable', texte: 'Je veux que mon service fonctionne mieux' },
+  { cible: 'o-besoin', texte: "Je n'arrive pas à me faire comprendre de mon prestataire" },
+];
+
+/** Points de départ (source : « Activité Lean management : présentation et offre de services »). */
+const pointsDeDepart = [
+  {
+    id: 'o-audit',
+    etiquette: 'Pour commencer',
+    titre: 'Audit de la performance humaine et organisationnelle',
+    besoin: "J'ai besoin d'un état des lieux de mon service",
+    description:
+      "Un état des lieux d'un premier service : comment les personnes et l'organisation fonctionnent aujourd'hui.",
+    resultat: "une photographie claire, à partir de laquelle vous décidez d'aller plus loin, ou non.",
+  },
+  {
+    id: 'o-diagnostic',
+    titre: 'Diagnostic',
+    besoin: 'Je ne sais plus par où commencer',
+    description:
+      "Identifier ce qui fait perdre du temps et de l'énergie, puis bâtir avec vous un plan d'actions priorisées.",
+    resultat: 'comprendre et prioriser.',
+  },
+  {
+    id: 'o-controle',
+    titre: 'Remise sous contrôle',
+    besoin: 'Je passe mon temps à gérer les urgences',
+    description: "Sortir du mode pompier et reprendre la main sur l'activité, avec vos équipes.",
+    resultat: 'retrouver une organisation maîtrisée.',
+  },
+  {
+    id: 'o-durable',
+    titre: 'Amélioration durable',
+    besoin: 'Je veux que mon service fonctionne mieux',
+    description: 'Ancrer de bonnes pratiques dans le quotidien pour que les progrès tiennent dans le temps.',
+    resultat: 'installer une dynamique de performance.',
+  },
+  {
+    id: 'o-besoin',
+    titre: 'Expression et formalisation du besoin',
+    besoin: "Je n'arrive pas à me faire comprendre de mon prestataire",
+    description:
+      'Clarifier ce dont vous avez vraiment besoin, et vous orienter vers le bon professionnel : expert technique, industriel, psychologue…',
+    resultat:
+      "un besoin explicite, compris des deux parties, avec un point d'entrée ou un cahier des charges formalisé.",
+  },
+];
+
+const accompagnements = [
+  {
+    titre: "Définition d'un processus de service",
+    description:
+      'Votre équipe construit elle-même son futur processus, avec ses rôles et ses prérequis, grâce à des outils visuels et des métaphores.',
+    details: [
+      ['Outils', 'SIPOC, carte de flux, répartition des rôles.'],
+      ['Livrable', 'le processus cible et la liste des prérequis (ressources, formation, procédures).'],
+      ['Exemple', "la migration d'applicatifs vers le cloud dans une DSI."],
+    ],
+  },
+  {
+    titre: "Mise en place d'un processus de gestion de projet",
+    description:
+      'Structurer votre gestion de projet : un sujet complexe, qui ne se pilote pas comme une ligne de production.',
+  },
+  {
+    titre: 'Accompagnement de plans de transformation',
+    description:
+      'Aider vos équipes à se projeter dans le futur processus, pour que la transformation soit comprise et adoptée.',
+  },
+  {
+    titre: 'Chantier Lean sur un manque de ressources',
+    description: 'Intervenir dans une équipe qui manque de ressources pour dégager des gains concrets.',
+  },
+  {
+    titre: 'Séances courtes en visio',
+    description:
+      'Des interventions à distance sur des formats courts, par exemple une demi-heure pour recadrer une situation.',
+  },
+] as { titre: string; description: string; details?: string[][] }[];
 ---
 
 <BaseLayout>
-  <section class="bg-surface py-24 md:py-32">
-    <div class="container-site text-center">
-      <h1 class="text-4xl text-primary md:text-6xl">{site.name}</h1>
-      <p class="mx-auto mt-6 max-w-2xl text-lg text-ink/70">{site.description}</p>
-      <a
-        href={url('/contact')}
-        class="mt-10 inline-block rounded-lg bg-accent px-6 py-3 font-medium text-white transition hover:opacity-90"
-      >
-        Nous contacter
-      </a>
+  <!-- Accueil : reprend le recto de la carte de visite -->
+  <section class="hero" id="top">
+    <svg class="rays" viewBox="0 0 320 120" aria-hidden="true">
+      <g stroke="#FD5203" stroke-width="2" stroke-linecap="round">
+        <line x1="160" y1="10" x2="160" y2="34"></line>
+        <line x1="112" y1="20" x2="122" y2="42"></line>
+        <line x1="208" y1="20" x2="198" y2="42"></line>
+        <line x1="70" y1="44" x2="88" y2="60"></line>
+        <line x1="250" y1="44" x2="232" y2="60"></line>
+      </g>
+    </svg>
+    <div class="wrap">
+      <img
+        class="logo"
+        src={url('/logo-lotus.png')}
+        alt="Logo Lumenescit : fleur de lotus orange en aquarelle, posée sur ses feuilles au-dessus de l'eau"
+        width="580"
+        height="420"
+      />
+      <h1>{site.name}</h1>
+      <hr class="accent" />
+      <p class="mention">{site.mention}</p>
+      <p class="baseline">{site.tagline}</p>
+      <a class="btn" href="#offres">Découvrir les offres</a>
     </div>
   </section>
 
-  <Section title="Contenu à venir">
-    <p class="text-ink/70">Les sections de la page d'accueil seront construites à partir des spécifications.</p>
-  </Section>
+  <section class="sens" id="approche">
+    <div class="wrap">
+      <h2>J'entrevois la lumière</h2>
+      <hr class="accent" />
+      <p>
+        <em>Lumenescit</em> signifie en latin « la lumière commence à poindre ». Comme le lotus qui fleurit au-dessus d'une
+        eau trouble, j'accompagne les organisations en difficulté vers une situation claire.
+      </p>
+      <p>Pas de promesse : du concret.</p>
+      <div class="cards">
+        <div class="card">
+          <span class="num">01</span>
+          <h3>Un diagnostic</h3>
+          <p>Comprendre ce qui se passe réellement, sur le terrain, avec les équipes.</p>
+        </div>
+        <div class="card">
+          <span class="num">02</span>
+          <h3>Des actions priorisées</h3>
+          <p>Un plan d'actions clair, réaliste, qui commence par ce qui compte le plus.</p>
+        </div>
+        <div class="card">
+          <span class="num">03</span>
+          <h3>Des gains mesurés</h3>
+          <p>Des résultats visibles et suivis, pour les personnes comme pour l'organisation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="offres" id="offres">
+    <div class="wrap">
+      <h2>Les offres</h2>
+      <hr class="accent" />
+      <p class="intro">
+        Choisissez la phrase qui vous ressemble : je vous montre l'offre correspondante. Vous pouvez aussi parcourir toutes
+        les offres ci-dessous.
+      </p>
+      <ul class="besoins" aria-label="Trouver l'offre adaptée à votre situation">
+        {
+          besoins.map((b) => (
+            <li>
+              <button type="button" data-cible={b.cible}>
+                « {b.texte} »
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+
+      <h3 class="groupe">Les points de départ</h3>
+      <div class="cards">
+        {
+          pointsDeDepart.map((o) => (
+            <article class="offre" id={o.id}>
+              {o.etiquette && <span class="etiquette">{o.etiquette}</span>}
+              <h4>{o.titre}</h4>
+              <p class="besoin">« {o.besoin} »</p>
+              <p>{o.description}</p>
+              <p class="resultat">
+                <strong>Résultat :</strong> {o.resultat}
+              </p>
+              <a class="lien" href={mail(o.titre)}>
+                En parler →
+              </a>
+            </article>
+          ))
+        }
+      </div>
+
+      <h3 class="groupe">Les accompagnements</h3>
+      <div class="liste">
+        {
+          accompagnements.map((a) => (
+            <details class="offre">
+              <summary>{a.titre}</summary>
+              <div class="corps">
+                <p>{a.description}</p>
+                {a.details && (
+                  <ul>
+                    {a.details.map(([k, v]) => (
+                      <li>
+                        <strong>{k} :</strong> {v}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <a class="lien" href={mail(a.titre)}>
+                  En parler →
+                </a>
+              </div>
+            </details>
+          ))
+        }
+      </div>
+
+      <h3 class="groupe">Les contenus pédagogiques</h3>
+      <div class="liste">
+        <details class="offre">
+          <summary>
+            Vidéos pédagogiques <span class="etiquette">À venir</span>
+          </summary>
+          <div class="corps">
+            <p>
+              Des vidéos courtes, une notion par vidéo, pour expliquer les concepts et les outils que j'utilise, adaptés aux
+              sociétés de service. Une série s'adressera aussi aux jeunes.
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <p class="note">Vous ne savez pas quelle offre choisir ? <a href="#contact">Écrivez-moi</a> : on en parle ensemble.</p>
+    </div>
+  </section>
+
+  <section class="public" id="public">
+    <div class="wrap">
+      <h2>Pour qui</h2>
+      <hr class="accent" />
+      <ul>
+        <li>Les sociétés de service en difficulté.</li>
+        <li>Les dirigeants et managers qui ont perdu pied et cherchent à retrouver de la visibilité.</li>
+        <li>La fonction publique et les administrations.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Contact : reprend le verso de la carte de visite -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2>Contact</h2>
+      <hr class="accent" />
+      <div class="bloc">
+        <svg class="capucine" viewBox="0 0 100 100" aria-hidden="true">
+          <g fill="#FD5203">
+            <ellipse cx="50" cy="28" rx="16" ry="20"></ellipse>
+            <ellipse cx="50" cy="28" rx="16" ry="20" transform="rotate(72 50 50)"></ellipse>
+            <ellipse cx="50" cy="28" rx="16" ry="20" transform="rotate(144 50 50)"></ellipse>
+            <ellipse cx="50" cy="28" rx="16" ry="20" transform="rotate(216 50 50)"></ellipse>
+            <ellipse cx="50" cy="28" rx="16" ry="20" transform="rotate(288 50 50)"></ellipse>
+          </g>
+        </svg>
+        <div>
+          <p class="nom">{site.owner}</p>
+          <p class="titre">{site.role}</p>
+          <hr class="accent" />
+          <ul>
+            <li>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="#045B62"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2"
+                ></path></svg
+              >
+              <span>{site.contact.phone || '[06 00 00 00 00]'}</span>
+            </li>
+            <li>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="#045B62"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg
+              >
+              <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+            </li>
+            <li>
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="#045B62"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path><path
+                  d="M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg
+              >
+              {
+                site.social.linkedin ? (
+                  <a href={site.social.linkedin}>LinkedIn</a>
+                ) : (
+                  <span>[linkedin.com/in/…]</span>
+                )
+              }
+            </li>
+          </ul>
+        </div>
+        <a class="btn" href={`mailto:${site.contact.email}`}>Écrire un message</a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<script>
+  // Clic sur une phrase « besoin » : défile jusqu'à l'offre et la met en évidence
+  document.querySelectorAll<HTMLButtonElement>('.besoins button').forEach((b) => {
+    b.addEventListener('click', () => {
+      const el = document.getElementById(b.dataset.cible ?? '');
+      if (!el) return;
+      document.querySelectorAll('.offre.cible').forEach((o) => o.classList.remove('cible'));
+      el.classList.add('cible');
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      el.setAttribute('tabindex', '-1');
+      el.focus({ preventScroll: true });
+    });
+  });
+</script>
+
+<style>
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  section {
+    padding: 4rem 0;
+    font-size: 1.125rem;
+    line-height: 1.6;
+    scroll-margin-top: 4rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+    margin: 0 0 0.4rem;
+  }
+  p {
+    margin: 0 0 1rem;
+  }
+  .accent {
+    width: 44px;
+    height: 2px;
+    background: var(--color-accent);
+    border: 0;
+    margin: 1rem auto;
+  }
+  h2 + .accent {
+    margin: 0 0 1.75rem;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--color-primary);
+    color: #fff;
+    text-decoration: none;
+    padding: 0.8rem 1.6rem;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .btn:hover {
+    background: var(--color-primary-light);
+  }
+
+  /* Accueil */
+  .hero {
+    text-align: center;
+    padding: 5rem 0 4.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .rays {
+    position: absolute;
+    left: 50%;
+    top: 1.5rem;
+    transform: translateX(-50%);
+    width: 320px;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .logo {
+    width: min(280px, 70vw);
+    height: auto;
+    margin: 2rem auto 0;
+    position: relative;
+  }
+  h1 {
+    margin: 1rem 0 0;
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: 0.16em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+  .mention {
+    margin: 0;
+    color: var(--color-primary-light);
+    font-size: 1.15rem;
+  }
+  .baseline {
+    margin: 1.5rem 0 2.25rem;
+    font-style: italic;
+    font-size: 1.3rem;
+  }
+
+  /* Approche */
+  .sens {
+    background: #f8f3ea;
+  }
+  .sens p {
+    max-width: 720px;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-top: 3px solid var(--color-primary-light);
+  }
+  .card h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.15rem;
+  }
+  .card p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .num {
+    display: inline-block;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+
+  /* Offres */
+  .intro {
+    max-width: 720px;
+    margin: 0 0 1.5rem;
+  }
+  .besoins {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    list-style: none;
+  }
+  .besoins button {
+    font: inherit;
+    font-size: 0.98rem;
+    font-style: italic;
+    color: var(--color-primary);
+    background: #fff;
+    border: 1.5px solid var(--color-primary-light);
+    border-radius: 999px;
+    padding: 0.55rem 1.1rem;
+    cursor: pointer;
+    text-align: left;
+  }
+  .besoins button:hover,
+  .besoins button:focus-visible {
+    background: var(--color-primary-light);
+    color: #fff;
+    outline: none;
+  }
+  h3.groupe {
+    font-size: 1.25rem;
+    margin: 2.5rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  h3.groupe::before {
+    content: '';
+    width: 18px;
+    height: 2px;
+    background: var(--color-accent);
+  }
+  .offre {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--color-primary-light);
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    scroll-margin-top: 90px;
+    transition:
+      box-shadow 0.3s,
+      border-color 0.3s;
+  }
+  .offre.cible {
+    border-left-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(253, 82, 3, 0.35);
+  }
+  .offre h4 {
+    margin: 0;
+    font-size: 1.15rem;
+  }
+  .offre p {
+    margin: 0;
+    font-size: 1rem;
+  }
+  .offre .besoin {
+    font-style: italic;
+    color: var(--color-primary-light);
+  }
+  .offre .resultat {
+    font-size: 0.95rem;
+  }
+  .offre .resultat strong {
+    color: var(--color-accent);
+  }
+  .lien {
+    margin-top: auto;
+    padding-top: 0.4rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: underline;
+  }
+  .etiquette {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--color-accent);
+    border-radius: 4px;
+    padding: 0.15rem 0.5rem;
+  }
+  details.offre {
+    display: block;
+    padding: 0;
+  }
+  details.offre summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 1.1rem 1.5rem;
+    font-weight: 600;
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  details.offre summary::-webkit-details-marker {
+    display: none;
+  }
+  details.offre summary::after {
+    content: '+';
+    margin-left: auto;
+    color: var(--color-accent);
+    font-size: 1.5rem;
+    line-height: 1;
+    font-weight: 400;
+  }
+  details.offre[open] summary::after {
+    content: '–';
+  }
+  details.offre .corps {
+    padding: 0 1.5rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+  details.offre ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    list-style: disc;
+    font-size: 1rem;
+  }
+  .liste {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .note {
+    font-size: 0.95rem;
+    font-style: italic;
+    margin-top: 1.5rem;
+  }
+  .note a {
+    text-decoration: underline;
+  }
+
+  /* Pour qui */
+  .public {
+    background: var(--color-primary-light);
+    color: #fff;
+  }
+  .public ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    list-style: disc;
+    max-width: 720px;
+  }
+  .public li {
+    margin: 0.4rem 0;
+  }
+
+  /* Contact */
+  .bloc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .bloc .accent {
+    margin: 0.8rem 0 1.2rem;
+  }
+  .nom {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .titre {
+    color: var(--color-primary-light);
+    margin: 0;
+  }
+  .bloc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bloc li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0.45rem 0;
+  }
+  .bloc li a {
+    text-decoration: underline;
+  }
+  .capucine {
+    position: absolute;
+    right: -30px;
+    bottom: -30px;
+    width: 180px;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+
+  @media (max-width: 600px) {
+    section {
+      font-size: 1.0625rem;
+    }
+    .hero {
+      padding: 3.5rem 0 3rem;
+    }
+  }
+</style>

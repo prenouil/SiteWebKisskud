@@ -5,24 +5,25 @@ import { url } from '../utils/url';
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-auto bg-primary text-white/80">
+<footer class="mt-auto bg-primary text-surface/85">
   <div class="container-site flex flex-col gap-4 py-8 text-sm md:flex-row md:items-center md:justify-between">
-    <p>
-      &copy; {year} {site.name}. Tous droits réservés.
-    </p>
+    <div>
+      <p>&copy; {year} {site.name}. Tous droits réservés.</p>
+      <p class="italic opacity-80">{site.tagline}</p>
+    </div>
     <ul class="flex gap-6">
       <li>
-        <a href={url('/mentions-legales')} class="hover:text-white">
+        <a href={url('/mentions-legales')} class="hover:text-accent">
           Mentions légales
         </a>
       </li>
       <li>
-        <a href={url('/confidentialite')} class="hover:text-white">
+        <a href={url('/confidentialite')} class="hover:text-accent">
           Confidentialité
         </a>
       </li>
       <li>
-        <a href={`mailto:${site.contact.email}`} class="hover:text-white">
+        <a href={url('/#contact')} class="hover:text-accent">
           Contact
         </a>
       </li>

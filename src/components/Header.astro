@@ -5,15 +5,29 @@ import { url, stripBase } from '../utils/url';
 const current = stripBase(Astro.url.pathname);
 ---
 
-<header class="sticky top-0 z-50 border-b border-black/5 bg-white/90 backdrop-blur">
+<header class="sticky top-0 z-50 border-b border-primary/10 bg-surface/95 backdrop-blur">
   <div class="container-site flex h-16 items-center justify-between">
-    <a href={url('/')} class="text-xl font-bold text-primary">
-      {site.name}
+    <a href={url('/')} class="flex items-center gap-2 font-semibold tracking-[0.16em] text-primary uppercase">
+      <svg class="h-7 w-10" viewBox="0 0 120 86" aria-hidden="true">
+        <g fill="none" stroke="#FD5203" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M60 10 C70 24 70 44 60 58 C50 44 50 24 60 10Z"></path>
+          <path d="M60 58 C48 52 38 38 38 22 C50 28 58 40 60 58Z"></path>
+          <path d="M60 58 C72 52 82 38 82 22 C70 28 62 40 60 58Z"></path>
+          <path d="M58 60 C42 60 26 52 20 38 C34 38 50 46 58 60Z"></path>
+          <path d="M62 60 C78 60 94 52 100 38 C86 38 70 46 62 60Z"></path>
+        </g>
+        <path d="M36 62 C46 66 74 66 84 62" fill="none" stroke="#045B62" stroke-width="3" stroke-linecap="round"></path>
+        <g fill="none" stroke="#0B4A66" stroke-width="2.5" stroke-linecap="round">
+          <path d="M14 72 q8 -5 16 0 t16 0 t16 0 t16 0 t16 0 t16 0"></path>
+          <path d="M26 81 q8 -5 16 0 t16 0 t16 0 t16 0 t16 0"></path>
+        </g>
+      </svg>
+      <span>{site.name}</span>
     </a>
 
     <button
       id="menu-toggle"
-      class="md:hidden"
+      class="text-primary md:hidden"
       aria-label="Ouvrir le menu"
       aria-expanded="false"
       aria-controls="main-nav"
@@ -25,7 +39,7 @@ const current = stripBase(Astro.url.pathname);
 
     <nav
       id="main-nav"
-      class="absolute inset-x-0 top-16 hidden border-b border-black/5 bg-white md:static md:block md:border-0 md:bg-transparent"
+      class="absolute inset-x-0 top-16 hidden border-b border-primary/10 bg-surface md:static md:block md:border-0 md:bg-transparent"
     >
       <ul class="flex flex-col gap-1 p-4 md:flex-row md:gap-6 md:p-0">
         {navigation.map((item) => (
@@ -33,7 +47,7 @@ const current = stripBase(Astro.url.pathname);
             <a
               href={url(item.href)}
               class:list={[
-                'block py-2 transition-colors hover:text-accent',
+                'block py-2 font-semibold text-primary transition-colors hover:text-accent',
                 current === item.href && 'font-semibold text-primary',
               ]}
               aria-current={current === item.href ? 'page' : undefined}
@@ -54,4 +68,13 @@ const current = stripBase(Astro.url.pathname);
     const open = nav?.classList.toggle('hidden') === false;
     toggle.setAttribute('aria-expanded', String(open));
   });
+  // Referme le menu mobile après un clic sur un lien d'ancre
+  nav?.querySelectorAll('a').forEach((link) =>
+    link.addEventListener('click', () => {
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        nav.classList.add('hidden');
+        toggle?.setAttribute('aria-expanded', 'false');
+      }
+    }),
+  );
 </script>
