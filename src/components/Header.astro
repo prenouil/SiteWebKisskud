@@ -41,7 +41,7 @@ const current = stripBase(Astro.url.pathname);
       id="main-nav"
       class="absolute inset-x-0 top-16 hidden border-b border-primary/10 bg-surface md:static md:block md:border-0 md:bg-transparent"
     >
-      <ul class="flex flex-col gap-1 p-4 md:flex-row md:gap-6 md:p-0">
+      <ul class="flex flex-col gap-1 p-4 md:flex-row md:items-center md:gap-6 md:p-0">
         {navigation.map((item) => (
           <li>
             <a
@@ -56,6 +56,20 @@ const current = stripBase(Astro.url.pathname);
             </a>
           </li>
         ))}
+        {
+          site.booking && (
+            <li>
+              <a
+                href={site.booking}
+                target="_blank"
+                rel="noopener"
+                class="mt-2 block rounded-md bg-accent px-4 py-2 text-center font-semibold text-white transition-colors hover:bg-primary md:mt-0"
+              >
+                Prendre un rendez-vous
+              </a>
+            </li>
+          )
+        }
       </ul>
     </nav>
   </div>

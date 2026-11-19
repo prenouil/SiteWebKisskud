@@ -15,6 +15,11 @@ export const site = {
   url: 'https://prenouil.github.io/SiteWebKisskud', // À remplacer par le domaine définitif (voir aussi astro.config.mjs)
   locale: 'fr_FR',
   lang: 'fr',
+  /**
+   * Lien public de la page de réservation Google Agenda (« agenda de rendez-vous »).
+   * Tant qu'il est vide, les boutons « Prendre un rendez-vous » ne s'affichent pas.
+   */
+  booking: 'https://calendar.app.google/Mzmr5a8mUSnGwmiYA' as string,
   contact: {
     email: 'contact@example.com',
     phone: '',

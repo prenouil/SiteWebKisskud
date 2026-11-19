@@ -116,7 +116,16 @@ const accompagnements = [
       <hr class="accent" />
       <p class="mention">{site.mention}</p>
       <p class="baseline">{site.tagline}</p>
-      <a class="btn" href="#offres">Découvrir les offres</a>
+      <div class="actions">
+        {
+          site.booking && (
+            <a class="btn btn-accent" href={site.booking} target="_blank" rel="noopener">
+              Prendre un rendez-vous
+            </a>
+          )
+        }
+        <a class="btn" href="#offres">Découvrir les offres</a>
+      </div>
     </div>
   </section>
 
@@ -320,7 +329,16 @@ const accompagnements = [
             </li>
           </ul>
         </div>
-        <a class="btn" href={`mailto:${site.contact.email}`}>Écrire un message</a>
+        <div class="actions">
+          {
+            site.booking && (
+              <a class="btn btn-accent" href={site.booking} target="_blank" rel="noopener">
+                Prendre un rendez-vous
+              </a>
+            )
+          }
+          <a class="btn" href={`mailto:${site.contact.email}`}>Écrire un message</a>
+        </div>
       </div>
     </div>
   </section>
@@ -381,6 +399,21 @@ const accompagnements = [
   }
   .btn:hover {
     background: var(--color-primary-light);
+  }
+  .btn-accent {
+    background: var(--color-accent);
+  }
+  .btn-accent:hover {
+    background: #d94600;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+  .bloc .actions {
+    flex-direction: column;
   }
 
   /* Accueil */
